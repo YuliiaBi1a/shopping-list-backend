@@ -26,11 +26,20 @@ public class ControllerProduct {
     public ResponseEntity<?> postProduct(@RequestBody Product product){
         Optional<Product> optionalProduct = PRODUCT_REPOSITORY.findByName(product.getName());
         if(optionalProduct.isPresent()){
-            return new ResponseEntity<>("The product already exist", HttpStatus.IM_USED);
+            return new ResponseEntity<>("The product already exist", HttpStatus.CONFLICT);
         }
 
         Product newProduct = PRODUCT_REPOSITORY.save(product);
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Long id){
+        Optional<Product> optionalProduct = PRODUCT_REPOSITORY.findById(id);
+        if(optionalProduct.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(optionalProduct.get(), HttpStatus.OK);
     }
 }
 
