@@ -33,3 +33,4 @@ public class ControllerProduct {
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
 }
+
