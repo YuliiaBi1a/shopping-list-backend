@@ -2,15 +2,12 @@ package com.grupo4.shopping_list_backend;
 
 import jakarta.persistence.*;
 
-
 @Entity
 public class Product {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-
 
     private Long id;
     private String name;
@@ -22,6 +19,10 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
