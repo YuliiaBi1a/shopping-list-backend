@@ -51,5 +51,18 @@ public class ControllerProduct {
         PRODUCT_REPOSITORY.deleteById(id);
         return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody Product newProduct) {
+        Optional<Product> optionalProduct = PRODUCT_REPOSITORY.findById(id);
+        if (optionalProduct.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Product baseProduct = optionalProduct.get();
+        baseProduct.setName(newProduct.getName());
+        baseProduct.setBought(newProduct.isBought());
+        PRODUCT_REPOSITORY.save(baseProduct);
+        return new ResponseEntity<>("Product updated.", HttpStatus.OK);
+    }
 }
 
