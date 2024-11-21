@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ControllerProduct {
 
     private final ProductRepository PRODUCT_REPOSITORY;
@@ -21,6 +22,7 @@ public class ControllerProduct {
     public List<Product> productList(){
         return PRODUCT_REPOSITORY.findAll();
     }
+
 
     @PostMapping
     public ResponseEntity<?> postProduct(@RequestBody Product product){
