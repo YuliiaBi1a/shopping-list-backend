@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ControllerProduct {
 
     private final ProductRepository PRODUCT_REPOSITORY;
@@ -21,6 +22,7 @@ public class ControllerProduct {
     public List<Product> productList(){
         return PRODUCT_REPOSITORY.findAll();
     }
+
 
     @PostMapping
     public ResponseEntity<?> postProduct(@RequestBody Product product){
@@ -50,6 +52,19 @@ public class ControllerProduct {
         }
         PRODUCT_REPOSITORY.deleteById(id);
         return new ResponseEntity<>("Product deleted.", HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody Product newProduct) {
+        Optional<Product> optionalProduct = PRODUCT_REPOSITORY.findById(id);
+        if (optionalProduct.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Product baseProduct = optionalProduct.get();
+        baseProduct.setName(newProduct.getName());
+        baseProduct.setBought(newProduct.isBought());
+        PRODUCT_REPOSITORY.save(baseProduct);
+        return new ResponseEntity<>("Product updated.", HttpStatus.OK);
     }
 }
 
